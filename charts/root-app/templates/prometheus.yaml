@@ -16,7 +16,7 @@ spec:
           enabled: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: ssca
+    namespace: default
   syncPolicy:
     automated:
       prune: true
