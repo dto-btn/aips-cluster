@@ -1,0 +1,4 @@
+# No configurable values yet. The ClusterIssuer below currently has its fields
+# hardcoded in templates/cluster-issuer.yaml to keep this in sync 1:1 with the
+# `cert_manager_cluster_issuer_yaml` output from the Terraform L2_blueprint_aks
+# module. If the identity's clientID or DNS zone ever change, update both places.
