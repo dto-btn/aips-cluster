@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name argo-cd
+  namespace: &env aips-platform
+spec:
+  destination:
+    namespace: *name
+    server: https://kubernetes.default.svc
+  project: *env
+  sources:
+  # Helm Value Precedence: https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#helm-value-precedence
+  # Multiple Sources: https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/
+  - helm:
+      releaseName: *name
+      valueFiles:
+      - $values/platform/argo-cd/values.yaml
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: 9.1.4
+  - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
+    targetRevision: &iacTargetRevision main
+    path: platform/argo-cd/values
+  - repoURL: *iacRepo
+    targetRevision: *iacTargetRevision
+    path: platform/argo-cd/manifests
+    directory:
+      recurse: false
+  - repoURL: *iacRepo
+    targetRevision: *iacTargetRevision
+    path: platform/argo-cd/projects
+    directory:
+      recurse: false
+  syncPolicy:
+    syncOptions:
+    - ServerSideApply=true

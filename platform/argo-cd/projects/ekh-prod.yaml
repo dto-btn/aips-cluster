@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: &project ekh-prod
+  namespace: argo-cd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - name: in-cluster
+    namespace: *project
+    server: https://kubernetes.default.svc
+  - name: in-cluster
+    namespace: aips-platform
+    server: https://kubernetes.default.svc
+  namespaceResourceBlacklist:
+  - group: '*'
+    kind: Pipeline
+  - group: '*'
+    kind: Task
+  - group: '*'
+    kind: PipelineRun
+  sourceNamespaces:
+  - *project
+  sourceRepos:
+  - https://github.com/dto-btn/enterprise-knowledge-hub
