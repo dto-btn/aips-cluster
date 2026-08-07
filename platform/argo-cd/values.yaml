@@ -30,7 +30,7 @@ openshift:
 ## Custom resource configuration
 crds:
   # -- Install and upgrade CRDs
-  install: true
+  install: false
   # -- Keep CRDs on chart uninstall
   keep: true
   # -- Annotations to be added to all CRDs
@@ -415,7 +415,7 @@ configs:
 
     # You can customize parameters by adding parameters here.
     # (e.g.)
-    application.namespaces: 'canchat-*'
+    application.namespaces: 'aips-*'
     server.insecure: "true"
 
   # Argo CD RBAC policy configuration
