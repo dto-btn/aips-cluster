@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: aips-platform
+  namespace: argo-cd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Project for cluster-wide or shared resources.
+  destinations:
+  - name: '*'
+    namespace: '*'
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceNamespaces:
+  - aips-platform
+  sourceRepos:
+  - https://github.com/dto-btn/aips-cluster
+  - oci://quay.io/jetstack/charts/cert-manager
+  - https://charts.external-secrets.io
+  - https://argoproj.github.io/argo-helm
+  - https://projectcontour.github.io/helm-charts/
+  # - https://prometheus-community.github.io/helm-charts
+  # - https://grafana.github.io/helm-charts
+  # - https://helm.goharbor.io
+  # - https://open-telemetry.github.io/opentelemetry-helm-charts

@@ -20,7 +20,7 @@ spec:
     targetRevision: 9.1.4
   - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
     targetRevision: &iacTargetRevision main
-    path: platform/argo-cd/values
+    ref: values
   - repoURL: *iacRepo
     targetRevision: *iacTargetRevision
     path: platform/argo-cd/manifests
