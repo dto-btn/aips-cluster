@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: &project aips-prod
+  namespace: argo-cd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - name: in-cluster
+    namespace: *project
+    server: https://kubernetes.default.svc
+  - name: in-cluster
+    namespace: aips-platform
+    server: https://kubernetes.default.svc
+  namespaceResourceBlacklist:
+  - group: '*'
+    kind: Pipeline
+  - group: '*'
+    kind: Task
+  - group: '*'
+    kind: PipelineRun
+  sourceNamespaces:
+  - *project
+  sourceRepos:
+  - https://github.com/dto-btn/aips-cluster
+  - https://github.com/dto-btn/enterprise-knowledge-hub
+  # - https://github.com/BerriAI/litellm
+  # - https://oauth2-proxy.github.io/manifests
+  # - https://qdrant.github.io/qdrant-helm
+  # - https://github.com/apache/tika-helm
+  # - https://helm.openwebui.com
+  # - oci://registry-1.docker.io/cloudpirates/redis
+  # - https://github.com/CloudPirates-io/helm-charts
+  # - oci://registry-1.docker.io/cloudpirates/postgres
