@@ -509,11 +509,76 @@ configs:
 
     # -- TLS certificates for Git repositories
     # @default -- `{}` (See [values.yaml])
-    certificates: {}
-      # server.example.com: |
-      #   -----BEGIN CERTIFICATE-----
-      #   ...
-      #   -----END CERTIFICATE-----
+    certificates:
+
+      # This is not the github cert.  
+      # Proxy CA cert that signed the intercepted GH certificate.
+      github.com: |
+        -----BEGIN CERTIFICATE-----
+        MIIFPjCCBCagAwIBAgITUgAAAcy5ZwIIThgQ1wAAAAABzDANBgkqhkiG9w0BAQsF
+        ADA4MQswCQYDVQQGEwJDQTELMAkGA1UEChMCR0MxHDAaBgNVBAMTE0dPQy1HREMt
+        SVNTVUlORy1BMUEwHhcNMjQwMjI3MTgzODEwWhcNMjkwMjI3MTg0ODEwWjCBrjEL
+        MAkGA1UEBhMCQ0ExCzAJBgNVBAgTAk9OMQ8wDQYDVQQHEwZPVFRBV0ExETAPBgNV
+        BAoTCFBTUEMtU1NDMR4wHAYDVQQDExVDbG91ZC1OdWFnZSBTU0wgUHJveHkxTjBM
+        BgkqhkiG9w0BCQEWP2F6dXJlY2xvdWRvcGVyYXRpb25zLm9wZXJhdGlvbnNpbmZv
+        bnVhZ2lxdWVzYXp1cmVAc3NjLXNwYy5nYy5jYTCCASIwDQYJKoZIhvcNAQEBBQAD
+        ggEPADCCAQoCggEBAM8aESjG8O1ehc+SToo7l1KD1+Ck4zo28sjUCjL5E3zw2b9+
+        8JBi5XrqpbAy9znKKgXqvnNeG7jpnAxKQpjU9dyeFFkEwXI68aMfhTZquiP4NjPJ
+        K8fukq7uzziQFG5cdeWzALY5X82K0nFd//9/1Dj0eGpTWsEtfQcmeVB4EB2ch9QF
+        0FMKppH4adctoa0EYKq1AQ9olCqXzwM7ilXL/CzVjb+lT7whPpniVHZz80VZ/kEE
+        VGhT0Q7bbEQbhXSrQG1D7TXMCsuyeP6rYy4+uFPvx6/adSzjnjeDqqq6OBJpjYDt
+        2t8VJzi7QtwtC1IcNu2iuX48JASeH+FhYx1rJasCAwEAAaOCAcgwggHEMBIGA1Ud
+        EwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgEGMB0GA1UdDgQWBBTdFIFBxCK4
+        8bHWSrnHNxt+BMo7ATAfBgNVHSMEGDAWgBRy/Hw+22ZFXoHmq4tsFLR2SY0UczBF
+        BgNVHR8EPjA8MDqgOKA2hjRodHRwOi8vcGtpLWljcC5jYW5hZGEuY2EvY3JsL0dP
+        Qy1HREMtSVNTVUlORy1BMUEuY3JsMHsGCCsGAQUFBwEBBG8wbTBABggrBgEFBQcw
+        AoY0aHR0cDovL3BraS1pY3AuY2FuYWRhLmNhL2FpYS9HT0MtR0RDLUlTU1VJTkct
+        QTFBLmNydDApBggrBgEFBQcwAYYdaHR0cDovL3BraS1pY3AuY2FuYWRhLmNhL29j
+        c3AwgYQGA1UdIAR9MHsweQYHYHxlCAYCAjBuMCgGCCsGAQUFBwIBFhxodHRwOi8v
+        cGtpLWljcC5jYW5hZGEuY2EvY3AvMEIGCCsGAQUFBwICMDYeNABMAGkAbQBpAHQA
+        ZQBkACAAbABpAGEAYgBpAGwAaQB0AHkAIAAtACAAcwBlAGUAIABDAFAwEwYDVR0l
+        BAwwCgYIKwYBBQUHAwEwDQYJKoZIhvcNAQELBQADggEBAB7E1Lw6iZ5WEYQ5860S
+        9LTJ0eCbRs0vA+JFweWkvmkqULDE3bzbAVoaC6cA5ZotKJKiMIGBat9GxUqM2ude
+        iw4t20pnW7UEiad4ybMokIdRAw3OiiRFUrr2apMQ6daVEehCBO5u47dCKEL0ayhc
+        UKznCXX5c9o1XJVlYZDDVRp3HzPHVKmNzNka0WqRez1CWdc1cGMV3XROP7/Yr2iM
+        h6fokawu48Eb67qUT+8/n3i8mDFZJfHTB8qvAnSDvDbQEgo+oHvQ6K0Y2qkh7Mkf
+        Q6brHvoq24psE+4JOevYnwmhlTv0RBSjvtadrjdLgAMK27TIdEJr0++gm0J4VW7I
+        BfI=
+        -----END CERTIFICATE-----
+
+      # Argo Helm repository is also TLS-inspected by the same proxy CA.
+      argoproj.github.io: |
+        -----BEGIN CERTIFICATE-----
+        MIIFPjCCBCagAwIBAgITUgAAAcy5ZwIIThgQ1wAAAAABzDANBgkqhkiG9w0BAQsF
+        ADA4MQswCQYDVQQGEwJDQTELMAkGA1UEChMCR0MxHDAaBgNVBAMTE0dPQy1HREMt
+        SVNTVUlORy1BMUEwHhcNMjQwMjI3MTgzODEwWhcNMjkwMjI3MTg0ODEwWjCBrjEL
+        MAkGA1UEBhMCQ0ExCzAJBgNVBAgTAk9OMQ8wDQYDVQQHEwZPVFRBV0ExETAPBgNV
+        BAoTCFBTUEMtU1NDMR4wHAYDVQQDExVDbG91ZC1OdWFnZSBTU0wgUHJveHkxTjBM
+        BgkqhkiG9w0BCQEWP2F6dXJlY2xvdWRvcGVyYXRpb25zLm9wZXJhdGlvbnNpbmZv
+        bnVhZ2lxdWVzYXp1cmVAc3NjLXNwYy5nYy5jYTCCASIwDQYJKoZIhvcNAQEBBQAD
+        ggEPADCCAQoCggEBAM8aESjG8O1ehc+SToo7l1KD1+Ck4zo28sjUCjL5E3zw2b9+
+        8JBi5XrqpbAy9znKKgXqvnNeG7jpnAxKQpjU9dyeFFkEwXI68aMfhTZquiP4NjPJ
+        K8fukq7uzziQFG5cdeWzALY5X82K0nFd//9/1Dj0eGpTWsEtfQcmeVB4EB2ch9QF
+        0FMKppH4adctoa0EYKq1AQ9olCqXzwM7ilXL/CzVjb+lT7whPpniVHZz80VZ/kEE
+        VGhT0Q7bbEQbhXSrQG1D7TXMCsuyeP6rYy4+uFPvx6/adSzjnjeDqqq6OBJpjYDt
+        2t8VJzi7QtwtC1IcNu2iuX48JASeH+FhYx1rJasCAwEAAaOCAcgwggHEMBIGA1Ud
+        EwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgEGMB0GA1UdDgQWBBTdFIFBxCK4
+        8bHWSrnHNxt+BMo7ATAfBgNVHSMEGDAWgBRy/Hw+22ZFXoHmq4tsFLR2SY0UczBF
+        BgNVHR8EPjA8MDqgOKA2hjRodHRwOi8vcGtpLWljcC5jYW5hZGEuY2EvY3JsL0dP
+        Qy1HREMtSVNTVUlORy1BMUEuY3JsMHsGCCsGAQUFBwEBBG8wbTBABggrBgEFBQcw
+        AoY0aHR0cDovL3BraS1pY3AuY2FuYWRhLmNhL2FpYS9HT0MtR0RDLUlTU1VJTkct
+        QTFBLmNydDApBggrBgEFBQcwAYYdaHR0cDovL3BraS1pY3AuY2FuYWRhLmNhL29j
+        c3AwgYQGA1UdIAR9MHsweQYHYHxlCAYCAjBuMCgGCCsGAQUFBwIBFhxodHRwOi8v
+        cGtpLWljcC5jYW5hZGEuY2EvY3AvMEIGCCsGAQUFBwICMDYeNABMAGkAbQBpAHQA
+        ZQBkACAAbABpAGEAYgBpAGwAaQB0AHkAIAAtACAAcwBlAGUAIABDAFAwEwYDVR0l
+        BAwwCgYIKwYBBQUHAwEwDQYJKoZIhvcNAQELBQADggEBAB7E1Lw6iZ5WEYQ5860S
+        9LTJ0eCbRs0vA+JFweWkvmkqULDE3bzbAVoaC6cA5ZotKJKiMIGBat9GxUqM2ude
+        iw4t20pnW7UEiad4ybMokIdRAw3OiiRFUrr2apMQ6daVEehCBO5u47dCKEL0ayhc
+        UKznCXX5c9o1XJVlYZDDVRp3HzPHVKmNzNka0WqRez1CWdc1cGMV3XROP7/Yr2iM
+        h6fokawu48Eb67qUT+8/n3i8mDFZJfHTB8qvAnSDvDbQEgo+oHvQ6K0Y2qkh7Mkf
+        Q6brHvoq24psE+4JOevYnwmhlTv0RBSjvtadrjdLgAMK27TIdEJr0++gm0J4VW7I
+        BfI=
+        -----END CERTIFICATE-----
 
     # -- Specifies if the argocd-tls-certs-cm configmap should be created by Helm.
     create: true
