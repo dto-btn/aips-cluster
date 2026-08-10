@@ -1,5 +1,5 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name:  ssca-frontend
-  namespace: aips-prod
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name:  ssca-frontend
+#   namespace: aips-prod
