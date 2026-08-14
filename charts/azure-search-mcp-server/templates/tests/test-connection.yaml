@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "azure-search-mcp-server.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "azure-search-mcp-server.fullname" . }}:{{ .Values.service.port }}/mcp']
   restartPolicy: Never

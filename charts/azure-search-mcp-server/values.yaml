@@ -22,9 +22,9 @@ fullnameOverride: ""
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
   # Specifies whether a service account should be created.
-  create: true
+  create: false
   # Automatically mount a ServiceAccount's API credentials?
-  automount: true
+  automount: false
   # Annotations to add to the service account.
   annotations: {}
   # The name of the service account to use.
@@ -50,11 +50,21 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+containerPort: 8000
+
 service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
+  port: 8000
+  targetPort: http
+
+# Environment variables passed to the application.
+env:
+  HOST: "0.0.0.0"
+
+# Name of an existing Secret containing Azure Search configuration.
+envFromSecret: ""
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -66,7 +76,7 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /
+        - path: /mcp
           pathType: ImplementationSpecific
   tls: []
     # - secretName: chart-example-tls
@@ -94,7 +104,7 @@ httpRoute:
   - matches:
     - path:
         type: PathPrefix
-        value: /headers
+        value: /mcp
   #   filters:
   #   - type: RequestHeaderModifier
   #     requestHeaderModifier:
@@ -125,13 +135,20 @@ resources: {}
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
-  httpGet:
-    path: /
+  tcpSocket:
     port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
 readinessProbe:
-  httpGet:
-    path: /
+  tcpSocket:
     port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+startupProbe:
+  tcpSocket:
+    port: http
+  failureThreshold: 30
+  periodSeconds: 5
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
