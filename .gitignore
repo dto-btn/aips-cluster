@@ -1,1 +1,6 @@
 charts/**/charts
+
+*.env
+system_certs.pem
+
+.DS_Store
