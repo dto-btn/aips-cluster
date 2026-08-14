@@ -1,4 +1,8 @@
-1. Get the application URL by running these commands:
+GEDS MCP Server has been deployed for internal Kubernetes access.
+
+The Streamable HTTP MCP endpoint is available at /mcp.
+
+To access it from your local machine, run:
 {{- if .Values.httpRoute.enabled }}
 {{- if .Values.httpRoute.hostnames }}
     export APP_HOSTNAME={{ .Values.httpRoute.hostnames | first }}
@@ -6,7 +10,7 @@
     export APP_HOSTNAME=$(kubectl get --namespace {{(first .Values.httpRoute.parentRefs).namespace | default .Release.Namespace }} gateway/{{ (first .Values.httpRoute.parentRefs).name }} -o jsonpath="{.spec.listeners[0].hostname}")
   {{- end }}
 {{- if and .Values.httpRoute.rules (first .Values.httpRoute.rules).matches (first (first .Values.httpRoute.rules).matches).path.value }}
-    echo "Visit http://$APP_HOSTNAME{{ (first (first .Values.httpRoute.rules).matches).path.value }} to use your application"
+    echo "MCP endpoint: http://$APP_HOSTNAME{{ (first (first .Values.httpRoute.rules).matches).path.value }}"
 
     NOTE: Your HTTPRoute depends on the listener configuration of your gateway and your HTTPRoute rules.
     The rules can be set for path, method, header and query parameters.
@@ -30,6 +34,6 @@
 {{- else if contains "ClusterIP" .Values.service.type }}
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "geds-mcp-server.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
   export CONTAINER_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
+  echo "MCP endpoint: http://127.0.0.1:8000/mcp"
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "geds-mcp-server.fullname" . }} 8000:{{ .Values.service.port }}
 {{- end }}

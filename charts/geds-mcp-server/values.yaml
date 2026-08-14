@@ -81,7 +81,7 @@ ingress:
   hosts:
     - host: chart-example.local
       paths:
-        - path: /
+        - path: /mcp
           pathType: ImplementationSpecific
   tls: []
     # - secretName: chart-example-tls
@@ -109,7 +109,7 @@ httpRoute:
   - matches:
     - path:
         type: PathPrefix
-        value: /headers
+        value: /mcp
   #   filters:
   #   - type: RequestHeaderModifier
   #     requestHeaderModifier:
