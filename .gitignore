@@ -1,1 +1,4 @@
 charts/**/charts
+
+*.env
+system_certs.pem

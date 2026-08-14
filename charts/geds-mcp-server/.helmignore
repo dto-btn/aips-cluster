@@ -21,3 +21,8 @@
 .idea/
 *.tmproj
 .vscode/
+
+# Local secrets and certificate bundles
+.env
+*.env
+system_certs.pem
