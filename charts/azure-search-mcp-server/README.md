@@ -32,16 +32,16 @@ Do not commit the source env files or API keys to Git.
 Create each Secret from its local, untracked env file. Run these commands from the Azure Search MCP server repository, where the configuration files are located:
 
 ```bash
-kubectl create namespace pmcoe-mcp
+kubectl create namespace pmcoe-dev
 kubectl create secret generic azure-search-pmcoe-config \
-  --namespace pmcoe-mcp \
+  --namespace pmcoe-dev \
   --from-env-file=configs/pmcoe.env
 ```
 
 ```bash
-kubectl create namespace myssc-mcp
+kubectl create namespace myssc-dev
 kubectl create secret generic azure-search-myssc-config \
-  --namespace myssc-mcp \
+  --namespace myssc-dev \
   --from-env-file=configs/myssc.env
 ```
 
@@ -54,14 +54,14 @@ Run these commands from the root of the `aips-cluster` repository:
 ```bash
 helm upgrade --install azure-search-pmcoe \
   ./charts/azure-search-mcp-server \
-  --namespace pmcoe-mcp \
+  --namespace pmcoe-dev \
   --set envFromSecret=azure-search-pmcoe-config
 ```
 
 ```bash
 helm upgrade --install azure-search-myssc \
   ./charts/azure-search-mcp-server \
-  --namespace myssc-mcp \
+  --namespace myssc-dev \
   --set envFromSecret=azure-search-myssc-config
 ```
 
@@ -79,14 +79,14 @@ http://azure-search-myssc-azure-search-mcp-server:8000/mcp
 Clients in another namespace can use the corresponding Kubernetes DNS names:
 
 ```text
-http://azure-search-pmcoe-azure-search-mcp-server.pmcoe-mcp.svc.cluster.local:8000/mcp
-http://azure-search-myssc-azure-search-mcp-server.myssc-mcp.svc.cluster.local:8000/mcp
+http://azure-search-pmcoe-azure-search-mcp-server.pmcoe-dev.svc.cluster.local:8000/mcp
+http://azure-search-myssc-azure-search-mcp-server.myssc-dev.svc.cluster.local:8000/mcp
 ```
 
 For local testing, port-forward either Service:
 
 ```bash
-kubectl port-forward --namespace pmcoe-mcp \
+kubectl port-forward --namespace pmcoe-dev \
   service/azure-search-pmcoe-azure-search-mcp-server 8000:8000
 ```
 
@@ -102,14 +102,14 @@ http://127.0.0.1:8000/mcp
 helm lint ./charts/azure-search-mcp-server
 helm template azure-search-pmcoe ./charts/azure-search-mcp-server \
   --set envFromSecret=azure-search-pmcoe-config
-helm test azure-search-pmcoe --namespace pmcoe-mcp
+helm test azure-search-pmcoe --namespace pmcoe-dev
 ```
 
 Check startup failures with:
 
 ```bash
-kubectl get pods --namespace pmcoe-mcp
-kubectl logs --namespace pmcoe-mcp \
+kubectl get pods --namespace pmcoe-dev
+kubectl logs --namespace pmcoe-dev \
   -l app.kubernetes.io/instance=azure-search-pmcoe
 ```
 
