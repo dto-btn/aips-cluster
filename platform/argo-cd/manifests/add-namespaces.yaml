@@ -1,7 +1,0 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ConfigMap
-metadata:
-  name: add-namespaces
-  namespace: argocd
-data:
-  application.namespaces: "aips-platform,aips-prod,argocd"
