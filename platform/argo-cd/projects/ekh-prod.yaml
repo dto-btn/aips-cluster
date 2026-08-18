@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: &project ekh-prod
-  namespace: argo-cd
+  namespace: argocd
 spec:
   clusterResourceWhitelist:
   - group: '*'
