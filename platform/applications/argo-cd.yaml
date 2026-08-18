@@ -15,9 +15,9 @@ spec:
       releaseName: *name
       valueFiles:
       - $values/platform/argo-cd/values.yaml
-    repoURL: https://github.com/dto-btn/aips-cluster
-    targetRevision: main
-    path: charts/argo-cd
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: 9.1.4
   - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
     targetRevision: &iacTargetRevision main
     ref: values
