@@ -21,7 +21,7 @@ This instruct on how to run the first `kubectl` commands needed to finish the cl
   kubectl create namespace aips-platform
   kubectl create namespace argocd
   kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-  kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge --patch-file platform/argo-cd/manifests/cmd-params-patch.yaml
+  kubectl patch -n argocd -f platform/argo-cd/manifests/add-namespaces.yaml
   ```
 
 ### Step 3
