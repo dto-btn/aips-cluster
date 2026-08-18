@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ssca-mcp-server.fullname" . }}
+  name: {{ include "orchestrator-mcp-server.fullname" . }}
   labels:
-    {{- include "ssca-mcp-server.labels" . | nindent 4 }}
+    {{- include "orchestrator-mcp-server.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "ssca-mcp-server.selectorLabels" . | nindent 6 }}
+      {{- include "orchestrator-mcp-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ssca-mcp-server.labels" . | nindent 8 }}
+        {{- include "orchestrator-mcp-server.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ssca-mcp-server.serviceAccountName" . }}
+      serviceAccountName: {{ include "orchestrator-mcp-server.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
