@@ -4,4 +4,4 @@ metadata:
   name: add-namespaces
   namespace: argocd
 data:
-  application.namespaces: "aips-platform,aips-prod"
+  application.namespaces: "aips-platform,aips-prod,argocd"
