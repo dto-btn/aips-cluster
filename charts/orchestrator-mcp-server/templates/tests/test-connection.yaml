@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "orchestrator-mcp-server.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "orchestrator-mcp-server.fullname" . }}:{{ .Values.service.port }}/mcp']
   restartPolicy: Never
