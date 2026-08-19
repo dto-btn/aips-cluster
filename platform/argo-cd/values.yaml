@@ -340,6 +340,8 @@ configs:
     # (e.g.)
     application.namespaces: 'aips-*'
     server.insecure: "true"
+    reposerver.log.level: "debug"
+    reposerver.log.level: "debug"
 
   # Argo CD RBAC policy configuration
   ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
@@ -438,6 +440,63 @@ configs:
       # Proxy CA cert that signed the intercepted GH certificate.
       github.com: |
         -----BEGIN CERTIFICATE-----
+        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
+        -----END CERTIFICATE-----
+        -----BEGIN CERTIFICATE-----
+        MIIEezCCA2OgAwIBAgIUXfw0NNwtahOq+X7bxzGy3ySzUFgwDQYJKoZIhvcNAQEL
+        BQAwga4xCzAJBgNVBAYTAkNBMQswCQYDVQQIEwJPTjEPMA0GA1UEBxMGT1RUQVdB
+        MREwDwYDVQQKEwhQU1BDLVNTQzEeMBwGA1UEAxMVQ2xvdWQtTnVhZ2UgU1NMIFBy
+        b3h5MU4wTAYJKoZIhvcNAQkBFj9henVyZWNsb3Vkb3BlcmF0aW9ucy5vcGVyYXRp
+        b25zaW5mb251YWdpcXVlc2F6dXJlQHNzYy1zcGMuZ2MuY2EwHhcNMjYwNzAzMDAw
+        MDAwWhcNMjYwODIyMTYzNjI2WjAVMRMwEQYDVQQDEwpnaXRodWIuY29tMFkwEwYH
+        KoZIzj0CAQYIKoZIzj0DAQcDQgAEJe4EdxGMbWlZC5Rthwovjv/SChz1E8Xuq+Qj
+        3mGvt/gJLZD/ehCDwdA24I3rdhPUYPX/6+sR0IsDmhiDSQH0kKOCAfIwggHuMB0G
+        A1UdDgQWBBQQpTpi1u/WBlae3LiC/MJ7aF09aTAOBgNVHQ8BAf8EBAMCB4AwDAYD
+        VR0TAQH/BAIwADATBgNVHSUEDDAKBggrBgEFBQcDATBJBgNVHSAEQjBAMDQGCysG
+        AQQBsjEBAgIHMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BT
+        MAgGBmeBDAECATCCAQUGCisGAQQB1nkCBAIEgfYEgfMA8QB2ANdtfRDRp/V3wsfp
+        X9cAv/mCyTNaZeHQswFzF8DIxWl3AAABnyVMdW0AAAQDAEcwRQIhAKSlrRlg3Cw+
+        IxEsfP6STVBL9b1uD/zjI0FUaRPbz101AiAxYuDFinq8YlcnHIPdzU0jVpmw8Dsa
+        rItJdpktkeAqHQB3AMijxH/Hs625NWsBP2p6Em3jOk5DpcZG+ZetOXWZHc+aAAAB
+        nyVMdWEAAAQDAEgwRgIhAOw75NHwRV8KI5sE+gMtErMotD+6iux5snZpkMh6MD1G
+        AiEAnp2nsWoIP3e1BdcAXbikMiazV9fh1n5U/Nca4Py7y3UwJQYDVR0RBB4wHIIK
+        Z2l0aHViLmNvbYIOd3d3LmdpdGh1Yi5jb20wHwYDVR0jBBgwFoAU3RSBQcQiuPGx
+        1kq5xzcbfgTKOwEwDQYJKoZIhvcNAQELBQADggEBALpviDUPUbV7SjQr/eOcK7FX
+        REpjCFyZc0TXl7XznuB4GEmbwgVenAzrG6VDcq2OeMba1PTvRFYfGz6G62aNDMR4
+        oavCoOj2xA5OceOHNPxl+OpYKoe6Dt7o777LU4iY+BV4t1gRODncVMStcY5r18WW
+        vgnask8C5VDvWR6cml7+IjWbr3j7+HfU0D0pDnDNpBC7s7regrVx3g2AXUUI55ri
+        2VwluZh9V4sg/rBfxRfwq+7vurONfEOfL6Wc4k39gl4RW2Ym2H+Kg86qeBXnmOL2
+        pH8vxp/0N8CuPfNueDq0cv5jGlVq7fh5NDfEORLoFM0Ia8IKyqXHOd/ywWP3hCY=
+        -----END CERTIFICATE-----
+        -----BEGIN CERTIFICATE-----
         MIIFPjCCBCagAwIBAgITUgAAAcy5ZwIIThgQ1wAAAAABzDANBgkqhkiG9w0BAQsF
         ADA4MQswCQYDVQQGEwJDQTELMAkGA1UEChMCR0MxHDAaBgNVBAMTE0dPQy1HREMt
         SVNTVUlORy1BMUEwHhcNMjQwMjI3MTgzODEwWhcNMjkwMjI3MTg0ODEwWjCBrjEL
@@ -467,41 +526,37 @@ configs:
         h6fokawu48Eb67qUT+8/n3i8mDFZJfHTB8qvAnSDvDbQEgo+oHvQ6K0Y2qkh7Mkf
         Q6brHvoq24psE+4JOevYnwmhlTv0RBSjvtadrjdLgAMK27TIdEJr0++gm0J4VW7I
         BfI=
-        -----END CERTIFICATE-----
-        -----BEGIN CERTIFICATE-----
-        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
         -----END CERTIFICATE-----
 
       # # Argo Helm repository is also TLS-inspected by the same proxy CA.
       argoproj.github.io: |
         -----BEGIN CERTIFICATE-----
+        MIIEezCCA2OgAwIBAgIUXfw0NNwtahOq+X7bxzGy3ySzUFgwDQYJKoZIhvcNAQEL
+        BQAwga4xCzAJBgNVBAYTAkNBMQswCQYDVQQIEwJPTjEPMA0GA1UEBxMGT1RUQVdB
+        MREwDwYDVQQKEwhQU1BDLVNTQzEeMBwGA1UEAxMVQ2xvdWQtTnVhZ2UgU1NMIFBy
+        b3h5MU4wTAYJKoZIhvcNAQkBFj9henVyZWNsb3Vkb3BlcmF0aW9ucy5vcGVyYXRp
+        b25zaW5mb251YWdpcXVlc2F6dXJlQHNzYy1zcGMuZ2MuY2EwHhcNMjYwNzAzMDAw
+        MDAwWhcNMjYwODIyMTYzNjI2WjAVMRMwEQYDVQQDEwpnaXRodWIuY29tMFkwEwYH
+        KoZIzj0CAQYIKoZIzj0DAQcDQgAEJe4EdxGMbWlZC5Rthwovjv/SChz1E8Xuq+Qj
+        3mGvt/gJLZD/ehCDwdA24I3rdhPUYPX/6+sR0IsDmhiDSQH0kKOCAfIwggHuMB0G
+        A1UdDgQWBBQQpTpi1u/WBlae3LiC/MJ7aF09aTAOBgNVHQ8BAf8EBAMCB4AwDAYD
+        VR0TAQH/BAIwADATBgNVHSUEDDAKBggrBgEFBQcDATBJBgNVHSAEQjBAMDQGCysG
+        AQQBsjEBAgIHMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BT
+        MAgGBmeBDAECATCCAQUGCisGAQQB1nkCBAIEgfYEgfMA8QB2ANdtfRDRp/V3wsfp
+        X9cAv/mCyTNaZeHQswFzF8DIxWl3AAABnyVMdW0AAAQDAEcwRQIhAKSlrRlg3Cw+
+        IxEsfP6STVBL9b1uD/zjI0FUaRPbz101AiAxYuDFinq8YlcnHIPdzU0jVpmw8Dsa
+        rItJdpktkeAqHQB3AMijxH/Hs625NWsBP2p6Em3jOk5DpcZG+ZetOXWZHc+aAAAB
+        nyVMdWEAAAQDAEgwRgIhAOw75NHwRV8KI5sE+gMtErMotD+6iux5snZpkMh6MD1G
+        AiEAnp2nsWoIP3e1BdcAXbikMiazV9fh1n5U/Nca4Py7y3UwJQYDVR0RBB4wHIIK
+        Z2l0aHViLmNvbYIOd3d3LmdpdGh1Yi5jb20wHwYDVR0jBBgwFoAU3RSBQcQiuPGx
+        1kq5xzcbfgTKOwEwDQYJKoZIhvcNAQELBQADggEBALpviDUPUbV7SjQr/eOcK7FX
+        REpjCFyZc0TXl7XznuB4GEmbwgVenAzrG6VDcq2OeMba1PTvRFYfGz6G62aNDMR4
+        oavCoOj2xA5OceOHNPxl+OpYKoe6Dt7o777LU4iY+BV4t1gRODncVMStcY5r18WW
+        vgnask8C5VDvWR6cml7+IjWbr3j7+HfU0D0pDnDNpBC7s7regrVx3g2AXUUI55ri
+        2VwluZh9V4sg/rBfxRfwq+7vurONfEOfL6Wc4k39gl4RW2Ym2H+Kg86qeBXnmOL2
+        pH8vxp/0N8CuPfNueDq0cv5jGlVq7fh5NDfEORLoFM0Ia8IKyqXHOd/ywWP3hCY=
+        -----END CERTIFICATE-----
+        -----BEGIN CERTIFICATE-----
         MIIFPjCCBCagAwIBAgITUgAAAcy5ZwIIThgQ1wAAAAABzDANBgkqhkiG9w0BAQsF
         ADA4MQswCQYDVQQGEwJDQTELMAkGA1UEChMCR0MxHDAaBgNVBAMTE0dPQy1HREMt
         SVNTVUlORy1BMUEwHhcNMjQwMjI3MTgzODEwWhcNMjkwMjI3MTg0ODEwWjCBrjEL
@@ -531,36 +586,6 @@ configs:
         h6fokawu48Eb67qUT+8/n3i8mDFZJfHTB8qvAnSDvDbQEgo+oHvQ6K0Y2qkh7Mkf
         Q6brHvoq24psE+4JOevYnwmhlTv0RBSjvtadrjdLgAMK27TIdEJr0++gm0J4VW7I
         BfI=
-        -----END CERTIFICATE-----
-        -----BEGIN CERTIFICATE-----
-        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
         -----END CERTIFICATE-----
 
     # -- Specifies if the argocd-tls-certs-cm configmap should be created by Helm.

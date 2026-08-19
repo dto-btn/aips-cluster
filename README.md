@@ -15,8 +15,8 @@ The first step assumes that [the repository containing the `terraform` code for 
 This instruct on how to run the first `kubectl` commands needed to finish the cluster initialisation.
 
 * Login webtop inside the `G3Pc` envionrment VM,
-* bootstrap the context for `kubectl` (install that binary if not already done) via `az aks get-credentials --resource-group G3Pc-SSC_EPSB_AKS-rg --name AIPS_Cluster` (this will store the config inside `~/.kube/config`)
-* Install argo CD:
+* bootstrap the context for `kubectl` (install that binary if not already done) via `az aks get-credentials --admin --resource-group G3Pc-SSC_EPSB_AKS-rg --name AIPS_Cluster --file ~/.kube/config` (this will store the config inside `~/.kube/config`)
+* Install argo CD:s
   ```bash
   kubectl create namespace aips-platform
   kubectl create namespace argocd
@@ -28,7 +28,11 @@ This instruct on how to run the first `kubectl` commands needed to finish the cl
 Manual bootstrap of the `instances/application/app-deployer.yaml` and `platform/applications/app-deployer.yaml` **app of apps** pattern. via: 
 
 ```bash
-cd ~/github/aips-cluster/ 
+cd ~/github/aips-cluster/
+# TODO
+# helm add argo...
+# helm install argo chart with value file...
+# then
 kubectl apply -f platform/argo-cd/projects/aips-platform.yaml
 kubectl apply -f platform/applications/app-deployer.yaml
 
