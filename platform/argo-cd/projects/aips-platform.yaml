@@ -23,7 +23,4 @@ spec:
   - https://charts.external-secrets.io
   - https://github.com/argoproj/argo-helm
   - https://projectcontour.github.io/helm-charts/
-  # - https://prometheus-community.github.io/helm-charts
-  # - https://grafana.github.io/helm-charts
-  # - https://helm.goharbor.io
-  # - https://open-telemetry.github.io/opentelemetry-helm-charts
+  - https://dandydeveloper.github.io/charts/
