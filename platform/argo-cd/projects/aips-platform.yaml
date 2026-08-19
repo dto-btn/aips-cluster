@@ -21,7 +21,7 @@ spec:
   - https://github.com/dto-btn/aips-cluster
   - oci://quay.io/jetstack/charts/cert-manager
   - https://charts.external-secrets.io
-  - https://argoproj.github.io/argo-helm
+  - https://github.com/argoproj/argo-helm
   - https://projectcontour.github.io/helm-charts/
   # - https://prometheus-community.github.io/helm-charts
   # - https://grafana.github.io/helm-charts
