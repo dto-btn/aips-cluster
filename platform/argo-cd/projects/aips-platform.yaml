@@ -22,6 +22,6 @@ spec:
   - oci://quay.io/jetstack/charts/cert-manager
   - oci://quay.io/jetstack/charts/trust-manager
   - https://charts.external-secrets.io
-  - https://github.com/argoproj/argo-helm
+  - https://argoproj.github.io/argo-helm
   - https://projectcontour.github.io/helm-charts/
   - https://dandydeveloper.github.io/charts/
