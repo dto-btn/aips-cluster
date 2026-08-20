@@ -21,11 +21,11 @@ spec:
   - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
     targetRevision: &iacTargetRevision main
     ref: values
-  - repoURL: *iacRepo
-    targetRevision: *iacTargetRevision
-    path: platform/argo-cd/manifests
-    directory:
-      recurse: false
+  # - repoURL: *iacRepo
+  #   targetRevision: *iacTargetRevision
+  #   path: platform/argo-cd/manifests
+  #   directory:
+  #     recurse: false
   - repoURL: *iacRepo
     targetRevision: *iacTargetRevision
     path: platform/argo-cd/projects
