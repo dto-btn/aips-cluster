@@ -2776,10 +2776,18 @@ repoServer:
     #    memory: 64Mi
 
   # -- Additional volumeMounts to the repo server main container
-  volumeMounts: []
+  volumeMounts:
+    - name: ca-bundle
+      mountPath: /etc/ssl/certs/ca-bundle.crt
+      subPath: ca-bundle.crt
+      readOnly: true
 
   # -- Additional volumes to the repo server pod
-  volumes: []
+  volumes:
+    - name: ca-bundle
+      configMap:
+        name: aips-trust-bundle
+        defaultMode: 0644
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
