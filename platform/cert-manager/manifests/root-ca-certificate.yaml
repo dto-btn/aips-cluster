@@ -1,0 +1,27 @@
+# The cluster's internal root CA. Signed by the bootstrap self-signed issuer
+# (selfsigned-bootstrap-issuer.yaml) once, then reused forever: the resulting
+# Secret backs the "ca-cluster-issuer" below and is the single source of
+# truth that trust-manager distributes cluster-wide (see
+# platform/trust-manager/manifests/bundle.yaml).
+#
+# Rotating this certificate re-keys the whole internal PKI, so the duration
+# is intentionally long (10 years) and renewal is triggered well ahead of
+# expiry.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: aips-root-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: AIPS Cluster Root CA
+  secretName: aips-root-ca-secret
+  duration: 87600h # 10y
+  renewBefore: 720h # 30d
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-bootstrap
+    kind: ClusterIssuer
+    group: cert-manager.io

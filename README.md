@@ -23,6 +23,20 @@ This instruct on how to run the first `kubectl` commands needed to finish the cl
   kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
   ```
 
+### Step 2.5
+
+Manually bootstrap `cert-manager` and `trust-manager` **before** installing the
+real ArgoCD Helm release in Step 3. cert-manager/trust-manager are meant to be
+GitOps-managed by ArgoCD long-term (see `platform/cert-manager/manifests/` and
+`platform/trust-manager/manifests/`), but ArgoCD needs the internal root CA
+they mint/distribute to already be trusted cluster-wide before it (and the
+apps it deploys) can rely on internally-issued certs. Installing them via
+ArgoCD would be circular, so this one-time manual step breaks the
+chicken-and-egg problem. Follow:
+
+* [`platform/cert-manager/README.md`](platform/cert-manager/README.md)
+* [`platform/trust-manager/README.md`](platform/trust-manager/README.md)
+
 ### Step 3
 
 Manual bootstrap of the `instances/application/app-deployer.yaml` and `platform/applications/app-deployer.yaml` **app of apps** pattern. via: 
@@ -62,7 +76,11 @@ aips-cluster/
 │   ├── argo-cd/
 │   │   ├── manifests/              # Raw k8s manifests applied alongside the argo-cd Helm chart
 │   │   └── projects/               # AppProject definitions (RBAC/scoping per instance, e.g. ekh-prod, ssca-prod)
-│   └── cert-manager/               # WIP: another platform-level tool, same manifests/ pattern
+│   ├── cert-manager/               # Public + internal-CA cert issuance; manually bootstrapped (see README)
+│   │   ├── README.md
+│   │   └── manifests/
+│   └── trust-manager/              # Distributes the internal root CA cluster-wide; manually bootstrapped (see README)
+│       ├── README.md
 │       └── manifests/
 │
 └── instances/                     # Actual product/app deployments, split per environment
