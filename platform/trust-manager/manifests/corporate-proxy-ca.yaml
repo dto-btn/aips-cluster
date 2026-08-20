@@ -52,5 +52,3 @@ data:
     Q6brHvoq24psE+4JOevYnwmhlTv0RBSjvtadrjdLgAMK27TIdEJr0++gm0J4VW7I
     BfI=
     -----END CERTIFICATE-----
-    # TODO: append the "GOC-GDC-ISSUING-A1A" root/issuing CA cert here once
-    # available, to complete the chain.

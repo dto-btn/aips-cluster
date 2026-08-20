@@ -1,18 +1,21 @@
 # trust-manager
 
-Distributes the AIPS internal root CA (minted in
-`platform/cert-manager/manifests/root-ca-certificate.yaml`) cluster-wide as a
-`ConfigMap` (see `manifests/bundle.yaml`), so any pod can trust certificates
-issued by `aips-internal-ca-issuer` without per-namespace copies of the CA.
+Distributes the corporate TLS-inspection proxy CA (`manifests/corporate-proxy-ca.yaml`)
+cluster-wide as a `ConfigMap` (see `manifests/bundle.yaml`), so any pod's
+outbound HTTPS traffic (git clone, helm/OCI pulls, etc.) that passes through
+the firewall's TLS-inspecting proxy is trusted — without needing per-host,
+per-namespace copies of the CA like `platform/argo-cd/values.yaml` used to
+hardcode under `configs.tls.certificates`.
 
 See `platform/cert-manager/README.md` for why this is bootstrapped manually,
 before ArgoCD, instead of being installed as a GitOps-managed Application.
 
 ## Prerequisite
 
-cert-manager must already be installed and the root CA
-(`aips-root-ca-secret` in the `cert-manager` namespace) must already exist —
-run through `platform/cert-manager/README.md` first.
+cert-manager must already be installed — run through
+`platform/cert-manager/README.md` first. (trust-manager has no runtime
+dependency on cert-manager itself; it's only used here to issue trust-manager's
+own webhook certificate.)
 
 ## Manual bootstrap steps
 
@@ -20,14 +23,16 @@ run through `platform/cert-manager/README.md` first.
 # Install trust-manager from the OCI registry, matching cert-manager's
 # installation source (https://cert-manager.io/docs/trust/trust-manager/installation/).
 # The "trust namespace" defaults to "cert-manager", which is where
-# aips-root-ca-secret lives, so no extra RBAC/config is needed to read it.
+# corporate-proxy-ca lives, so no extra RBAC/config is needed to read it.
 # No --version pin: always take the latest release for a fresh bootstrap.
 helm upgrade trust-manager oci://quay.io/jetstack/charts/trust-manager \
   --install \
   --namespace cert-manager \
   --wait
 
-# Apply the Bundle that assembles + distributes the trust bundle
+# Apply the corporate proxy CA source ConfigMap, then the Bundle that
+# assembles + distributes the trust bundle
+kubectl apply -f platform/trust-manager/manifests/corporate-proxy-ca.yaml
 kubectl apply -f platform/trust-manager/manifests/bundle.yaml
 ```
 

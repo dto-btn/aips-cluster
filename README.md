@@ -28,11 +28,11 @@ This instruct on how to run the first `kubectl` commands needed to finish the cl
 Manually bootstrap `cert-manager` and `trust-manager` **before** installing the
 real ArgoCD Helm release in Step 3. cert-manager/trust-manager are meant to be
 GitOps-managed by ArgoCD long-term (see `platform/cert-manager/manifests/` and
-`platform/trust-manager/manifests/`), but ArgoCD needs the internal root CA
-they mint/distribute to already be trusted cluster-wide before it (and the
-apps it deploys) can rely on internally-issued certs. Installing them via
-ArgoCD would be circular, so this one-time manual step breaks the
-chicken-and-egg problem. Follow:
+`platform/trust-manager/manifests/`), but ArgoCD's own pods need the corporate
+firewall's TLS-inspection proxy CA (distributed by trust-manager) to already
+be trusted cluster-wide so they can reach GitHub/quay.io/etc. through it.
+Installing them via ArgoCD would be circular, so this one-time manual step
+breaks the chicken-and-egg problem. Follow:
 
 * [`platform/cert-manager/README.md`](platform/cert-manager/README.md)
 * [`platform/trust-manager/README.md`](platform/trust-manager/README.md)
