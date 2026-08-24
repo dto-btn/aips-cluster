@@ -1,0 +1,108 @@
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}} }%%
+flowchart LR
+    %% ── USER LAYER ──────────────────────────────────────────────────────────
+    subgraph USERS["👥 Users"]
+        U1[SSC Employees]
+        U2[GC Employees]
+        U3[Administrators]
+    end
+
+    %% ── SECURE ACCESS & IDENTITY ────────────────────────────────────────────
+    subgraph EDGE["🔒 Secure Access & Identity"]
+        DNS[Public DNS / WAF / Firewall]
+        INGRESS[Ingress / Load Balancer]
+        ENTRA["Microsoft Entra ID\n(Azure AD)\nIdentity Provider\n─────────────\nSSO · MFA · RBAC\nConditional Access"]
+        POLICY[Terms & Policy Enforcement]
+    end
+
+    %% ── AZURE CORE PLATFORM ─────────────────────────────────────────────────
+    subgraph AZURE["☁️  Azure — Core Application Platform\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Deployment: Canada (target region — subject to validation)\n🏢 Provider: Foreign-controlled  →  CA / Foreign"]
+
+        subgraph APP["Application Services"]
+            WEBUI[Web UI / Chat Application]
+            API[Application API / Orchestration]
+            DOCPROC[Document & Background Processing]
+            AUDIT[Audit Service]
+        end
+
+        subgraph AIGATEWAY["AI Gateway / Model Routing"]
+            LITELLM["AI Gateway\n(LiteLLM or equivalent)\n────────────────────\nPolicy · Rate limiting\nLogging · Routing"]
+        end
+
+        subgraph DATA["Data & Knowledge Services"]
+            PG[(Relational DB\nPostgreSQL)]
+            REDIS[(Cache\nRedis)]
+            OBJ[(Object Storage\nBlob / S3-compatible)]
+            VECTOR[(Vector / Search\nQdrant or equivalent)]
+        end
+
+        subgraph OPS["Platform Operations"]
+            OBS[Observability\nLogs · Metrics · Traces]
+            SECRETS[Secrets Management\nAzure Key Vault]
+            CICD[CI / CD Pipeline]
+            BACKUP[Backup & DR]
+        end
+    end
+
+    %% ── THINKON / TKO ───────────────────────────────────────────────────────
+    subgraph TKO["🍁 ThinkOn / TKO — Cohere North Platform\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Deployment: Canada (Canadian-operated)\n🏢 Provider: Canadian-controlled  →  CA / CA"]
+        COHERE_NORTH["Cohere North Platform\n(Sovereign compute — subject to validation)"]
+        CMD_A["Cohere Command A\n(Approved model)"]
+        FUTURE_COHERE["Future approved\nCohere models"]
+    end
+
+    %% ── EXTERNAL PROVIDERS ──────────────────────────────────────────────────
+    subgraph EXTERNAL["🌐 External AI / Cloud Providers\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Deployment: TBC (Canadian region where selected & verified)\n🏢 Provider: Foreign-controlled  →  CA / Foreign (where verified) · otherwise TBC"]
+        AZ_OAI["Azure AI / Azure OpenAI\nCanada region — subject to\nper-service validation"]
+        OTHER_AI["Other Approved\nCloud / AI Providers\n(TBC / Foreign\nuntil assessed)"]
+    end
+
+    %% ── FLOWS ───────────────────────────────────────────────────────────────
+    U1 & U2 & U3 -->|HTTPS| DNS
+    DNS --> INGRESS
+    INGRESS --> ENTRA
+    ENTRA --> POLICY
+    POLICY --> WEBUI
+
+    WEBUI --> API
+    API --> DOCPROC
+    API --> AUDIT
+    API --> PG & REDIS & OBJ & VECTOR
+    DOCPROC --> OBJ
+
+    API --> LITELLM
+
+    LITELLM -->|"Approved API\n(private / encrypted)"| COHERE_NORTH
+    COHERE_NORTH --> CMD_A
+    COHERE_NORTH --> FUTURE_COHERE
+
+    LITELLM -->|"Approved API\n(encrypted — subject to\npolicy controls)"| AZ_OAI
+    LITELLM -->|"Approved API\n(TBC — requires\nassessment)"| OTHER_AI
+
+    OBS & SECRETS & CICD & BACKUP -.->|"Platform mgmt\n(internal)"| APP
+    OBS & SECRETS -.->|"Platform mgmt\n(internal)"| DATA
+    OBS & SECRETS -.->|"Platform mgmt\n(internal)"| AIGATEWAY
+
+    %% ── LEGEND ──────────────────────────────────────────────────────────────
+    subgraph LEGEND["📋 Sovereignty Legend"]
+        L1["CA / CA — Canadian deployment (target)\n+ Canadian-controlled provider"]
+        L2["CA / Foreign — Canadian deployment (target/subject to validation)\n+ Foreign-controlled provider"]
+        L3["TBC / Foreign — Canadian deployment not yet selected/verified\n+ Foreign-controlled provider"]
+        L4["TBC / TBC — Jurisdiction of deployment AND provider\nnot yet assessed"]
+        L5["⚠  'Canada-hosted' ≠ fully sovereign.\nEach service requires independent assessment\nof: data residency · backups/DR · control plane\n· support access · subcontractors · contracts."]
+    end
+
+    %% ── STYLES ──────────────────────────────────────────────────────────────
+    classDef userBox fill:#e8f4fd,stroke:#2980b9,color:#1a252f
+    classDef edgeBox fill:#fdebd0,stroke:#e67e22,color:#1a252f
+    classDef azureBox fill:#eaf4fb,stroke:#2e86c1,color:#1a252f
+    classDef tkoBox fill:#eafaf1,stroke:#27ae60,color:#1a252f
+    classDef extBox fill:#f5eef8,stroke:#8e44ad,color:#1a252f
+    classDef legendBox fill:#fdfefe,stroke:#aab7b8,color:#555,font-size:12px
+
+    class U1,U2,U3 userBox
+    class DNS,INGRESS,ENTRA,POLICY edgeBox
+    class WEBUI,API,DOCPROC,AUDIT,LITELLM,PG,REDIS,OBJ,VECTOR,OBS,SECRETS,CICD,BACKUP azureBox
+    class COHERE_NORTH,CMD_A,FUTURE_COHERE tkoBox
+    class AZ_OAI,OTHER_AI extBox
+    class L1,L2,L3,L4,L5 legendBox
