@@ -36,6 +36,12 @@ mmdc -i future-state-architecture.mmd -o future-state-architecture.svg
 mmdc -i future-state-architecture.mmd -o future-state-architecture.png
 ```
 
+If you don't want a global install, run it via `npx` instead (no `npm install -g` required):
+
+```bash
+npx -y @mermaid-js/mermaid-cli -i future-state-architecture.mmd -o future-state-architecture.svg
+```
+
 ### Option 4 — GitHub rendering
 
 GitHub renders Mermaid diagrams inline in Markdown files. To preview on GitHub, wrap the diagram source in a fenced code block with the `mermaid` language tag inside a `.md` file.
