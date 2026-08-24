@@ -43,6 +43,7 @@ global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
   #TODO AR argo fqdn.  
+  # TODO AR: does the record in dns zone need to be wildcard?
   domain: &host "argo.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca"
 
   # -- Runtime class name for all components
