@@ -1,0 +1,37 @@
+deployment:
+  replicas: 2
+
+ingressClass:
+  enabled: true
+  isDefaultClass: false
+  name: traefik
+
+providers:
+  kubernetesIngress:
+    enabled: true
+    ingressClass: traefik
+
+service:
+  enabled: true
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  spec:
+    type: LoadBalancer
+    # taken from security team after they provide us static ip.  
+    # dns zone IP -> picked up by f5 -> routes to static ip
+    loadBalancerIP: ""
+
+ports:
+  traefik:
+    expose:
+      default: false
+  web:
+    port: 8000
+    exposedPort: 80
+    expose:
+      default: true
+  websecure:
+    port: 8443
+    exposedPort: 443
+    expose:
+      default: true
