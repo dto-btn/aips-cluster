@@ -42,7 +42,8 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  # domain: &host "argocd.prod.thinkon.dsai-sdia.ssc-spc.cloud-nuage.canada.ca"
+  #TODO AR argo fqdn.  
+  domain: &host "argo.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca"
 
   # -- Runtime class name for all components
   runtimeClassName: ""
@@ -178,6 +179,9 @@ configs:
 
     # -- The name of tracking label used by Argo CD for resource pruning
     application.instanceLabelKey: argocd.argoproj.io/instance
+
+    #TODO AR argo fqdn.   
+    url: https://argo.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca
 
     # -- Enable control of the service account used for the sync operation (alpha)
     ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/app-sync-using-impersonation/
@@ -2624,7 +2628,9 @@ server:
   networkPolicy:
     # -- Default network policy rules used by ArgoCD Server
     # @default -- `false` (defaults to global.networkPolicy.create)
-    create: false
+    ## Required: global.networkPolicy.defaultDenyIngress is true, 
+    # needed else pods reject traffic from f5?
+    create: true
 
 ## Repo Server
 repoServer:
