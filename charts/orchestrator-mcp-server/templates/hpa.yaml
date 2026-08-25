@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "ssca-mcp-server.fullname" . }}
+  name: {{ include "orchestrator-mcp-server.fullname" . }}
   labels:
-    {{- include "ssca-mcp-server.labels" . | nindent 4 }}
+    {{- include "orchestrator-mcp-server.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "ssca-mcp-server.fullname" . }}
+    name: {{ include "orchestrator-mcp-server.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
