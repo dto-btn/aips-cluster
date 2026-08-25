@@ -16,12 +16,8 @@ This instruct on how to run the first `kubectl` commands needed to finish the cl
 
 * Login webtop inside the `G3Pc` envionrment VM,
 * bootstrap the context for `kubectl` (install that binary if not already done) via `az aks get-credentials --admin --resource-group G3Pc-SSC_EPSB_AKS-rg --name AIPS_Cluster --file ~/.kube/config` (this will store the config inside `~/.kube/config`)
-* Install argo CD:s
-  ```bash
-  kubectl create namespace aips-platform
-  kubectl create namespace argocd
-  kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-  ```
+* Install Helm and argo CD:
+
 
 ### Step 2.5
 
@@ -41,17 +37,20 @@ breaks the chicken-and-egg problem. Follow:
 
 Manual bootstrap of the `instances/application/app-deployer.yaml` and `platform/applications/app-deployer.yaml` **app of apps** pattern. via: 
 
-```bash
-cd ~/github/aips-cluster/
+
 # TODO
-# helm add argo...
-# helm install argo chart with value file...
-# then
-kubectl apply -f platform/argo-cd/projects/aips-platform.yaml
-kubectl apply -f platform/applications/app-deployer.yaml
+```bash
+  cd ~/github/aips-cluster/
+  helm repo add argo https://argoproj.github.io/argo-helm
+  helm repo update
+  kubectl create namespace aips-platform
+  kubectl create namespace argocd
+  kubectl create namespace cert-manager
+  helm install argo-cd argo/argo-cd --namespace argo-cd --create-namespace --values platform/argo-cd/values.yaml
+  kubectl apply -f platform/argo-cd/projects/aips-platform.yaml
+  kubectl apply -f platform/applications/app-deployer.yaml
+```
 
-
-#current state.  Applied certs to values.yaml.  But returning a 403.  not sure what's going on =/
 #not applied yet.
 kubectl apply -f instances/prod/applications/app-deployer.yaml
 # eventually ...
