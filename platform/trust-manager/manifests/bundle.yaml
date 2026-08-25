@@ -1,0 +1,23 @@
+# Distributes the corporate TLS-inspection proxy CA (see
+# corporate-proxy-ca.yaml) to every namespace as a ConfigMap, so any pod can
+# mount it to validate outbound TLS connections that get intercepted by the
+# corporate firewall (e.g. github.com, quay.io, any other proxied host)
+# without needing per-namespace/per-host copies of the CA.
+#
+# useDefaultCAs also folds in the public Mozilla/Debian CA bundle so a single
+# ConfigMap can be used as the one-stop trust store for both proxied and
+# directly-reachable public TLS endpoints.
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: aips-trust-bundle
+spec:
+  sources:
+    - configMap:
+        name: corporate-proxy-ca
+        key: ca.crt
+    - useDefaultCAs: true
+  target:
+    configMap:
+      key: ca-bundle.crt
+    namespaceSelector: {} # empty selector == sync to all namespaces

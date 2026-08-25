@@ -1,0 +1,27 @@
+# Note, this app is manually deployed, initially.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name:  app-deployer
+  namespace: &env aips-platform
+  annotations:
+    kubernetes.io/descripton: Deploys all of the applications that are part of the aips-platform environment to keep it aligned with what is in source.
+spec:
+  destination:
+    namespace: *env
+    server: https://kubernetes.default.svc
+  info:
+    - name: about
+      value: Deploys all of the applications that are part of the aips-platform environment to keep it aligned with what is in source.
+    - name: source
+      value: https://github.com/dto-btn/aips-cluster/tree/main/platform/applications/app-deployer.yaml
+  project: *env
+  sources:
+  # Helm Value Precedence: https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#helm-value-precedence
+  # Multiple Sources: https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/
+  - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
+    targetRevision: &iacTargetRevision main
+    path: platform/applications
+  syncPolicy:
+    automated:
+      selfHeal: true

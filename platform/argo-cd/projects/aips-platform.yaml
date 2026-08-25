@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: aips-platform
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Project for cluster-wide or shared resources.
+  destinations:
+  - name: '*'
+    namespace: '*'
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceNamespaces:
+  - aips-platform
+  sourceRepos:
+  - https://github.com/dto-btn/aips-cluster
+  - oci://quay.io/jetstack/charts/cert-manager
+  - oci://quay.io/jetstack/charts/trust-manager
+  - https://charts.external-secrets.io
+  - https://argoproj.github.io/argo-helm
+  - https://projectcontour.github.io/helm-charts/
+  - https://dandydeveloper.github.io/charts/
