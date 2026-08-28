@@ -24,4 +24,3 @@ spec:
   - https://charts.external-secrets.io
   - https://argoproj.github.io/argo-helm
   - https://dandydeveloper.github.io/charts/
-  - https://traefik.github.io/charts
