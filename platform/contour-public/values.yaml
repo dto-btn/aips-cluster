@@ -1138,8 +1138,9 @@ envoy:
     ##
     annotations: {
       service.beta.kubernetes.io/azure-load-balancer-internal: "true",
-      # TODO AR: vnet static ip set here?? 
-      service.beta.kubernetes.io/azure-load-balancer-ipv4: "33.33.33.33" 
+      # static IP must be free, in-subnet (172.16.142.0/24), and outside Azure's reserved .0-.3/.255 addresses
+      service.beta.kubernetes.io/azure-load-balancer-ipv4: "172.16.142.11",
+  
     }
     ports:
       ## @param envoy.service.ports.http Sets service http port
