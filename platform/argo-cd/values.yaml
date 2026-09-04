@@ -42,9 +42,7 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  #TODO AR argo fqdn.  
-  # TODO AR: does the record in dns zone need to be wildcard?
-  domain: &host "argo.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca"
+  domain: &host "argo.cluster.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca"
 
   # -- Runtime class name for all components
   runtimeClassName: ""
@@ -180,9 +178,8 @@ configs:
 
     # -- The name of tracking label used by Argo CD for resource pruning
     application.instanceLabelKey: argocd.argoproj.io/instance
-
-    #TODO AR argo fqdn.   
-    url: https://argo.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca
+ 
+    url: https://argo.cluster.ssc-prod-cioassistant.g3.ent.cloud-nuage.canada.ca
 
     # -- Enable control of the service account used for the sync operation (alpha)
     ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/app-sync-using-impersonation/
