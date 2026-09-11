@@ -63,9 +63,12 @@ service:
 env:
   ORCHESTRATOR_HOST: "0.0.0.0"
   ORCHESTRATOR_PORT: "8000"
-  ENABLE_LLM_CLASSIFIER: "false"
+  ENABLE_LLM_CLASSIFIER: "true"
+  ORCHESTRATOR_LITELLM_PROXY_URL: "http://litellm-proxy.litellm-dev.svc.cluster.local/v1"
+  ORCHESTRATOR_LLM_MODEL: "gpt-4o"
 
-# No Secret is required until LiteLLM classification is enabled.
+# Secret containing ORCHESTRATOR_LITELLM_MASTER_KEY for LiteLLM classification authentication.
+existingSecret: "orchestrator-mcp-server-secrets"
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:

@@ -1,23 +1,43 @@
 # SSCA Orchestrator MCP Server Helm Chart
 
-This chart deploys the SSCA orchestrator MCP server for internal Kubernetes clients. It classifies requests using the baked-in registry and deterministic keyword routing. LLM classification through LiteLLM is disabled for this first iteration.
+This chart deploys the SSCA orchestrator MCP server for internal Kubernetes clients. It classifies requests using the baked-in registry and optional LLM classification via LiteLLM proxy.
 
 ## Install
 
 From the root of the `aips-cluster` repository:
 
+### Step 1: Create Namespace and Required Secret
+
+Create an environment file from [.env.example](.env.example):
+
+```bash
+cp ./charts/orchestrator-mcp-server/.env.example .env.orchestrator
+```
+
+Set `ORCHESTRATOR_LITELLM_MASTER_KEY` (must match `LITELLM_MASTER_KEY` used by `litellm-proxy`), then create the secret:
+
 ```bash
 kubectl create namespace orchestrator-dev
 
+kubectl create secret generic orchestrator-mcp-server-secrets \
+  --from-env-file=.env.orchestrator \
+  -n orchestrator-dev
+```
+
+### Step 2: Deploy Helm Release
+
+```bash
 helm upgrade --install orchestrator-mcp-server \
   ./charts/orchestrator-mcp-server \
   --namespace orchestrator-dev
 ```
 
-No Secret is required for this iteration. The chart sets:
+The chart configures:
 
 ```text
-ENABLE_LLM_CLASSIFIER=false
+ENABLE_LLM_CLASSIFIER=true
+ORCHESTRATOR_LITELLM_PROXY_URL=http://litellm-proxy.litellm-dev.svc.cluster.local/v1
+ORCHESTRATOR_LLM_MODEL=gpt-4o
 ORCHESTRATOR_HOST=0.0.0.0
 ORCHESTRATOR_PORT=8000
 ```
