@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name cert-manager
+  namespace: &env aips-platform
+spec:
+  destination:
+    namespace: *name
+    server: https://kubernetes.default.svc
+  project: *env
+  sources:
+  - helm:
+      releaseName: *name
+      valueFiles:
+      - $values/platform/cert-manager/values.yaml
+    repoURL: oci://quay.io/jetstack/charts/cert-manager
+    chart: cert-manager
+    targetRevision: v1.21.1
+    path: '.'
+  - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
+    targetRevision: &iacTargetRevision main
+    ref: values
+  - repoURL: *iacRepo
+    targetRevision: *iacTargetRevision
+    path: platform/cert-manager/manifests
+    directory:
+      recurse: false
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
