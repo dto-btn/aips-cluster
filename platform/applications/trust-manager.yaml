@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name trust-manager
+  namespace: &env aips-platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  project: *env
+  sources:
+  - helm:
+      releaseName: *name
+      valueFiles:
+      - $values/platform/trust-manager/values.yaml
+    repoURL: https://charts.jetstack.io
+    chart: trust-manager
+    targetRevision: 0.25.0
+  - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
+    targetRevision: &iacTargetRevision add-cert-apps
+    ref: values
+  - repoURL: *iacRepo
+    targetRevision: *iacTargetRevision
+    path: platform/trust-manager/manifests
+    directory:
+      recurse: false
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
