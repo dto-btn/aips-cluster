@@ -24,10 +24,13 @@ own webhook certificate.)
 # installation source (https://cert-manager.io/docs/trust/trust-manager/installation/).
 # The "trust namespace" defaults to "cert-manager", which is where
 # corporate-proxy-ca lives, so no extra RBAC/config is needed to read it.
-# No --version pin: always take the latest release for a fresh bootstrap.
+# Keep this version aligned with platform/applications/trust-manager.yaml.
 helm upgrade trust-manager oci://quay.io/jetstack/charts/trust-manager \
   --install \
   --namespace cert-manager \
+  --version 0.25.0 \
+  --set defaultPackageImage.repository=quay.io/jetstack/trust-pkg-debian-trixie \
+  --set defaultPackageImage.tag=20250419.2 \
   --wait
 
 # Apply the corporate proxy CA source ConfigMap, then the Bundle that
@@ -36,10 +39,11 @@ kubectl apply -f platform/trust-manager/manifests/corporate-proxy-ca.yaml
 kubectl apply -f platform/trust-manager/manifests/bundle.yaml
 ```
 
-Once the GitOps Application for trust-manager is added under
-`platform/applications/`, pin its `targetRevision` to whatever version ends
-up installed here, so the manually bootstrapped release and the
-ArgoCD-managed one stay in sync going forward.
+The GitOps Application is
+`platform/applications/trust-manager.yaml`. Its chart version and
+`platform/trust-manager/values.yaml` must stay aligned with this bootstrap
+command so ArgoCD adopts the existing Helm release rather than changing it
+unexpectedly.
 
 Once this and `platform/cert-manager` are both bootstrapped, continue with
 the ArgoCD install steps in the top-level README.
@@ -51,4 +55,37 @@ kubectl get bundle aips-trust-bundle
 # Confirm the ConfigMap landed in a sample of namespaces
 kubectl get configmap aips-trust-bundle -n cert-manager -o jsonpath='{.data.ca-bundle\.crt}' | head -5
 kubectl get configmap aips-trust-bundle -n kube-system -o name
+```
+
+## Updating the public CA package
+
+`useDefaultCAs: true` loads public roots from the default CA package image;
+it does not update the package independently of the Helm release. Review the
+available tags in the
+[trust-pkg-debian-trixie registry](https://quay.io/repository/jetstack/trust-pkg-debian-trixie?tab=tags)
+regularly and update only `defaultPackageImage.tag` in
+`values.yaml`. Keep the trust-manager chart version fixed while doing this.
+
+For a manually bootstrapped release, export its values, update the package
+repository and tag, and apply the currently installed controller version:
+
+```bash
+helm get values -n cert-manager trust-manager -o yaml > /tmp/trust-manager-values.yaml
+# Edit /tmp/trust-manager-values.yaml, or copy the committed values.yaml into it.
+TRUST_MANAGER_VERSION=$(helm list --filter '^trust-manager$' -n cert-manager -o json | jq -r '.[0].app_version')
+helm upgrade trust-manager oci://quay.io/jetstack/charts/trust-manager \
+  --install \
+  --namespace cert-manager \
+  --version "$TRUST_MANAGER_VERSION" \
+  -f /tmp/trust-manager-values.yaml \
+  --wait
+```
+
+With ArgoCD managing the release, update `values.yaml` in Git and let the
+`trust-manager` Application sync. Verify the package and Bundle after either
+path:
+
+```bash
+kubectl get bundle aips-trust-bundle -o yaml | grep -A5 -i default
+kubectl get configmap aips-trust-bundle -n cert-manager -o jsonpath='{.data.ca-bundle\.crt}' | grep -c 'BEGIN CERTIFICATE'
 ```

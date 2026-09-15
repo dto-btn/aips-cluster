@@ -1,0 +1,4 @@
+# cert-manager CRDs are managed with the chart and retained on uninstall.
+crds:
+  enabled: true
+  keep: true

@@ -33,10 +33,11 @@ kubectl create namespace cert-manager
 # 2. Install cert-manager from the OCI registry (recommended over the
 #    legacy https://charts.jetstack.io repo, per
 #    https://cert-manager.io/docs/installation/helm/). Installs its own CRDs.
-#    No --version pin: always take the latest release for a fresh bootstrap.
+#    Keep this version aligned with platform/applications/cert-manager.yaml.
 helm upgrade cert-manager oci://quay.io/jetstack/charts/cert-manager \
   --install \
   --namespace cert-manager \
+  --version 1.21.2 \
   --set crds.enabled=true \
   --wait
 
@@ -44,10 +45,11 @@ helm upgrade cert-manager oci://quay.io/jetstack/charts/cert-manager \
 kubectl apply -f platform/cert-manager/manifests/cluster-issuer.yaml
 ```
 
-Once the GitOps Application for cert-manager is added under
-`platform/applications/`, pin its `targetRevision` to whatever version ends
-up installed here, so the manually bootstrapped release and the
-ArgoCD-managed one stay in sync going forward.
+The GitOps Application is
+`platform/applications/cert-manager.yaml`. Its chart version and
+`platform/cert-manager/values.yaml` must stay aligned with this bootstrap
+command so ArgoCD adopts the existing Helm release rather than changing it
+unexpectedly.
 
 Next: [`platform/trust-manager/README.md`](../trust-manager/README.md) to
 actually distribute the corporate proxy CA cluster-wide, before continuing
