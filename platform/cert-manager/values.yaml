@@ -4,6 +4,13 @@
 crds:
   enabled: true
 
+serviceAccount:
+  annotations:
+    azure.workload.identity/client-id: "7c436f49-e3ea-4749-a4f1-a39471f4b2a0"
+
+podLabels:
+  azure.workload.identity/use: "true"
+
 extraEnv:
   - name: SSL_CERT_FILE
     value: /etc/ssl/certs/ca-bundle.crt
