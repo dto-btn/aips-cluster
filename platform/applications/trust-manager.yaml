@@ -19,7 +19,7 @@ spec:
     chart: trust-manager
     targetRevision: 0.25.0
   - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
-    targetRevision: &iacTargetRevision main
+    targetRevision: &iacTargetRevision add-cert-apps
     ref: values
   - repoURL: *iacRepo
     targetRevision: *iacTargetRevision
