@@ -4,6 +4,9 @@
 crds:
   enabled: true
 
+dns01RecursiveNameservers: "172.31.144.1:53"
+dns01RecursiveNameserversOnly: true
+
 serviceAccount:
   annotations:
     azure.workload.identity/client-id: "7c436f49-e3ea-4749-a4f1-a39471f4b2a0"
