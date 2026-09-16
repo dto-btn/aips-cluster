@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-ingress-from-contour
-  namespace: argo-cd
+  namespace: argocd
   annotations:
     app.kubernetes.io/description: Only allows traffic from the contour envoy pod.
 spec:
@@ -17,7 +17,7 @@ spec:
     - namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: contour-public
-    - podSelector:
+      podSelector:
         matchLabels:
           app.kubernetes.io/component: "envoy"
           app.kubernetes.io/instance: "contour-public"
