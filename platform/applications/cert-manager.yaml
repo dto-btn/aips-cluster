@@ -7,6 +7,14 @@ spec:
   destination:
     namespace: *name
     server: https://kubernetes.default.svc
+  
+  # https://github.com/Azure/AKS/issues/4002 See this issue for why this is added
+  ignoreDifferences:
+  - group: admissionregistration.k8s.io
+    kind: ValidatingWebhookConfiguration
+    name: cert-manager-webhook
+    jqPathExpressions:
+    - '.webhooks[] | select(.name == "webhook.cert-manager.io") | .namespaceSelector'
   project: *env
   sources:
   - helm:
@@ -28,3 +36,4 @@ spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
+    - RespectIgnoreDifferences=true
