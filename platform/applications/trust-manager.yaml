@@ -15,9 +15,10 @@ spec:
       releaseName: *name
       valueFiles:
       - $values/platform/trust-manager/values.yaml
-    repoURL: https://charts.jetstack.io
+    repoURL: oci://quay.io/jetstack/charts/trust-manager
     chart: trust-manager
-    targetRevision: 0.25.0
+    targetRevision: v0.25.0
+    path: '.'
   - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
     targetRevision: &iacTargetRevision add-cert-apps
     ref: values
