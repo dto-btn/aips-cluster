@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: actions-runners
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Project for cluster-wide or shared resources.
+  destinations:
+  - name: 'actions-runners-cluster'
+    namespace: 'arc-system'
+  - name: 'actions-runners-cluster'
+    namespace: 'arc-runner-dto-btn'
+  - name: 'actions-runners-cluster'
+    namespace: 'external-secrets'
+  - name: 'in-cluster'
+    namespace: 'actions-runners'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceNamespaces:
+  - actions-runners
+  sourceRepos:
+  - https://github.com/dto-btn/aips-cluster
+  - oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+  - oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+  - https://charts.external-secrets.io
