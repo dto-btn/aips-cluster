@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: workload-identity-sa
+  namespace: aips-platform
+  annotations:
+    azure.workload.identity/client-id: 93678867-f2b7-4650-aeb2-6c1efb2d9738
+    azure.workload.identity/tenant-id: 7198d08c-c362-4703-9854-53b6f0d8fc44
