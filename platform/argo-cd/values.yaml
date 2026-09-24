@@ -340,7 +340,7 @@ configs:
 
     # You can customize parameters by adding parameters here.
     # (e.g.)
-    application.namespaces: 'aips-*'
+    application.namespaces: 'aips-*,actions-runners'
     server.insecure: "true"
     reposerver.log.level: "debug"
     reposerver.log.level: "debug"
