@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: actions-runners
+  name: &project actions-runners
   namespace: argocd
 spec:
   clusterResourceWhitelist:
@@ -9,19 +9,17 @@ spec:
     kind: '*'
   description: Project for cluster-wide or shared resources.
   destinations:
-  - name: 'actions-runners-cluster'
-    namespace: 'arc-system'
-  - name: 'actions-runners-cluster'
-    namespace: 'arc-runner-dto-btn'
-  - name: 'actions-runners-cluster'
-    namespace: 'external-secrets'
-  - name: 'in-cluster'
-    namespace: 'actions-runners'
+  - name: in-cluster
+    namespace: *project
+    server: https://kubernetes.default.svc
+  - name: in-cluster
+    namespace: canchat-platform
+    server: https://kubernetes.default.svc
   namespaceResourceWhitelist:
   - group: '*'
     kind: '*'
   sourceNamespaces:
-  - actions-runners
+  - *project
   sourceRepos:
   - https://github.com/dto-btn/aips-cluster
   - oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
