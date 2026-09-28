@@ -6,14 +6,14 @@ metadata:
   labels:
     azure.workload.identity/use: "true"
 spec:
-  serviceAccountName: workload-identity-sa
+  serviceAccountName: external-secrets
   containers:
     - image: ghcr.io/azure/azure-workload-identity/msal-go
       name: oidc
       env:
       - name: KEYVAULT_URL
         value: "https://eso-argocd-4519-kv.vault.azure.net/"
-      # - name: SECRET_NAME
-      #   value: ${KEYVAULT_SECRET_NAME}
+      - name: SECRET_NAME
+        value: github-app-id
   nodeSelector:
     kubernetes.io/os: linux
