@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     namespace: *project
-    name: https://kubernetes.default.svc
+    server: https://kubernetes.default.svc
   info:
     - name: about
       value: Deploys all of the applications that are part of the actions-runners environment to keep it aligned with what is in source.
