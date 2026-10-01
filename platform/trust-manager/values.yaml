@@ -1,0 +1,5 @@
+# Keep the public CA package version explicit so it can be updated independently
+# from the trust-manager controller chart.
+defaultPackageImage:
+  repository: quay.io/jetstack/trust-pkg-debian-trixie
+  tag: "20250419.2"
