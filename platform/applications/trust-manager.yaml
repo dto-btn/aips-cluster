@@ -20,7 +20,7 @@ spec:
     targetRevision: v0.25.0
     path: '.'
   - repoURL: &iacRepo 'https://github.com/dto-btn/aips-cluster'
-    targetRevision: &iacTargetRevision add-cert-apps
+    targetRevision: &iacTargetRevision main
     ref: values
   - repoURL: *iacRepo
     targetRevision: *iacTargetRevision
