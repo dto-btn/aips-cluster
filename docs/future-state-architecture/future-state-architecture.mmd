@@ -1,0 +1,63 @@
+flowchart LR
+    USERS["👥 Users\nSSC / GC Employees · Administrators"]
+    EDGE["🔒 Secure Access & Identity\nDNS · WAF · Ingress · Policy"]
+
+    subgraph AZURE["☁️ Azure"]
+        subgraph AAD["Azure AD"]
+            ENTRA["Microsoft Entra ID\nSSO · MFA · RBAC"]
+        end
+        subgraph AI Enterprise Platform
+            CANChat["CANChat\n(App)"]
+            SSCA["SSC Assistant\n(App)"]
+            KB["Knowledge Bases\n(Vector DB)"]
+            BROKER["AI Broker\n(LiteLLM)"]
+        end
+        AZUREAI["Azure AI Services"]
+        s1["🍁 / 🌐"]
+    end
+
+    subgraph TKO["🍁 ThinkOn"]
+        COMMANDA["Command A\nLLM Instance"]
+        COHERENORTH["Cohere North\nPlatform"]
+        s2["🍁 / 🍁"]
+    end
+
+    subgraph OCP["🌐 Other Cloud Providers"]
+        GEMINI["GCP\nGemini"]
+        s3["🌐 / 🌐"]
+    end
+
+    USERS -->|HTTPS| EDGE
+    EDGE <--> ENTRA
+    EDGE --> CANChat
+    EDGE --> SSCA
+    EDGE --> KB
+    EDGE --> BROKER
+
+    BROKER --> COMMANDA
+    BROKER --> COHERENORTH
+    BROKER --> AZUREAI
+    BROKER --> GEMINI
+
+    %% ── SOVEREIGNTY LEGEND ────────────────────────────────────────────────
+    subgraph LEGEND["📋 Sovereignty Legend"]
+        direction LR
+        L1["🍁 / 🍁  Canadian residency · Canadian-owned"]
+        L2["🍁 / 🌐  Canadian residency · Foreign-owned"]
+        L3["🌐 / 🌐  Foreign residency · Foreign-owned"]
+    end
+
+    %% ── STYLES ──────────────────────────────────────────────────────────────
+    classDef userBox fill:#e8f4fd,stroke:#2980b9,color:#1a252f
+    classDef edgeBox fill:#fdebd0,stroke:#e67e22,color:#1a252f
+    classDef azureBox fill:#eaf4fb,stroke:#2e86c1,color:#1a252f
+    classDef tkoBox fill:#eafaf1,stroke:#27ae60,color:#1a252f
+    classDef extBox fill:#f5eef8,stroke:#8e44ad,color:#1a252f
+    classDef legendBox fill:#fdfefe,stroke:#aab7b8,color:#555,font-size:12px
+
+    class USERS userBox
+    class EDGE edgeBox
+    class ENTRA,KB,BROKER,AZUREAI azureBox
+    class COMMANDA,COHERENORTH tkoBox
+    class GEMINI extBox
+    class L1,L2,L3 legendBox
